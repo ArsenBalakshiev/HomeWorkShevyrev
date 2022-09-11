@@ -1,0 +1,41 @@
+{
+    "data": [
+      {
+        "node": "A",
+        "edges": [
+          "B",
+          "C",
+          "D",
+          "E"
+        ]
+      },
+      {
+        "node": "B",
+        "edges": [ 
+          "F"
+        ]
+      },
+      {
+        "node": "F",
+        "edges": []
+      },
+      {
+        "node": "C",
+        "edges": []
+      },
+      {
+        "node": "D",
+        "edges": []
+      },
+      {
+        "node": "E",
+        "edges": [
+            "G"
+        ]
+      },
+      {
+        "node": "G",
+        "edges": []
+      }
+    ]
+  }

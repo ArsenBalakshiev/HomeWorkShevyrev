@@ -1,0 +1,83 @@
+{
+    "data": [
+      {
+        "node": 0,
+        "edges": [
+          {
+            "to": 1,
+            "weight": 7
+          },
+          {
+            "to": 3,
+            "weight": 5
+          }
+        ]
+      },
+      {
+        "node": 1,
+        "edges": [
+          {
+            "to": 2,
+            "weight": 8
+          },
+          {
+            "to": 3,
+            "weight": 9
+          },
+          {
+            "to": 4,
+            "weight": 7
+          }
+        ]
+      },
+      {
+        "node": 2,
+        "edges": [
+          {
+            "to": 4,
+            "weight": 5
+          }
+        ]
+      },
+      {
+        "node": 3,
+        "edges": [
+          {
+            "to": 5,
+            "weight": 6
+          },
+          {
+            "to": 4,
+            "weight": 15
+          }
+        ]
+      },
+      {
+        "node": 4,
+        "edges": [
+          {
+            "to": 5,
+            "weight": 8
+          },
+          {
+            "to": 6,
+            "weight": 9
+          }
+        ]
+      },
+      {
+        "node": 5,
+        "edges": [
+            {
+                "to": 6,
+                "weight": 11
+              }
+        ]
+      },
+      
+      {
+        "node": 6,
+        "edges": []
+      }
+    ]
+  }
