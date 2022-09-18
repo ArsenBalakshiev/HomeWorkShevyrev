@@ -1,0 +1,66 @@
+{
+    "data": [
+      {
+        "node": 0,
+        "edges": [
+          {
+            "to": 1,
+            "weight": 7
+          },
+          {
+            "to": 2,
+            "weight": 8
+          }
+        ]
+      },
+      {
+        "node": 1,
+        "edges": [
+          {
+            "to": 2,
+            "weight": 2
+          },
+          {
+            "to": 3,
+            "weight": 5
+          }
+        ]
+      },
+      {
+        "node": 2,
+        "edges": [
+        {
+            "to": 4,
+            "weight": 10
+        }  
+        ]
+      },
+      {
+        "node": 3,
+        "edges": [
+          {
+            "to": 5,
+            "weight": 3
+          },
+          {
+            "to": 4,
+            "weight": 2
+          }
+          
+        ]
+      }, 
+      {
+        "node": 4,
+        "edges": [
+          {
+            "to": 5,
+            "weight": 12
+          }
+        ]
+      },
+      {
+        "node": 5,
+        "edges": []
+      }
+    ]
+  }

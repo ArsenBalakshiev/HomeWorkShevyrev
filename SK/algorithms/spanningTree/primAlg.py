@@ -7,10 +7,6 @@ def prim(graph):
     result = [[0 for column in range(v)] 
                 for row in range(v)]
     index = 0
-    for i in range(v):
-        print(edges[i])
-    
-    print(selected_nodes)
 
     while(False in selected_nodes):
 
