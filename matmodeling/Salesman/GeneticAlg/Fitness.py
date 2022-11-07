@@ -3,6 +3,7 @@ class Fitness:
         self.route = route
         self.distance = 0
         self.fitness= 0.0
+        self.probability = 0.0
     
     def routeDistance(self):
         if self.distance ==0:
