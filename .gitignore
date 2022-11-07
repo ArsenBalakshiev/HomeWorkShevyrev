@@ -1,2 +1,3 @@
 matmodeling/Diophantine equation/GeneticAlg/__pycache__/gene.cpython-310.pyc
 matmodeling/Diophantine equation/GeneticAlg/alg.py
+*.pyc
