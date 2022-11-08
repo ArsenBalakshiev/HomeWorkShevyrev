@@ -52,7 +52,7 @@ class Solver():
                 return i
         return 0
     
-    def _inverse_sum(self):
+    def _inverse_sum(self): #сумма обращенных коэффициентов, деленная на величину, обратную к коэффициенту данному значению
         sum = 0
         for i in range(self.population_size):
             sum += 1.0 / self.population[i].fitness
@@ -65,7 +65,7 @@ class Solver():
             self.population[i].probability = ((1.0/self.population[i].fitness) / inverse_sum) * procent_factor
             #print ("%s & %s"%(i, self.population[i].probability))
 
-    def _get_active_index(self):
+    def _get_active_index(self): #кумулятивность вероятностей: выбирается значение от 1 до 100 и находится именно тот родитель, на чьём отрезке рандомное значение (колесо вероятностей)        
         val = random.randint(0, 101)
         last = 0
         for i in range(self.population_size):
@@ -73,7 +73,7 @@ class Solver():
                 return i
             else:
                 last = self.population[i].probability
-        return 4
+        return self._get_active_index()
         
 
 
@@ -89,7 +89,7 @@ class Solver():
                 child.alleles[i] = self.population[p_2].alleles[i];
             
 
-            if (random.randint(0, 666) < 5): #мутация
+            if (random.randint(0, 100) <= 5): #мутация
                 child.alleles[i] = random.randint(0, self.param.res)
 
         return child;
@@ -102,7 +102,7 @@ class Solver():
             parent_1 = 0
             parent_2 = 0
             iterations = 0
-            while(parent_1 == parent_2 or self.population[parent_1] == self.population[parent_2]): 
+            while(parent_1 == parent_2 or self.population[parent_1] == self.population[parent_2]): #поиск родителей
                 parent_1 = self._get_active_index()
                 parent_2 = self._get_active_index()
                 iterations += 1
