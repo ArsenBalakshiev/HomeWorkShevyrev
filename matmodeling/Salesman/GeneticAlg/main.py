@@ -1,4 +1,4 @@
-from City import City
+from Utils.City import City
 from Fitness import Fitness
 import random
 import numpy as np
