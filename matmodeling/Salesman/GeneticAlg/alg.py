@@ -6,6 +6,8 @@ import numpy as np
 import operator
 import pandas as pd
 
+#doesnt work
+
 class GeneticAlgTSP():
     def __init__(self, cities, mutationRate = 0.05):
         self.cities = cities;

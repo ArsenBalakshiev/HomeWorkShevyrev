@@ -1,4 +1,4 @@
-class Gene():
+class Fitness():
 
     def __init__(self):
         self.alleles = {}

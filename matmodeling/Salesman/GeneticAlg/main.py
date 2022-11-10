@@ -1,4 +1,3 @@
-from Gene import Genome;
 from City import City
 from Fitness import Fitness
 import random
@@ -18,25 +17,25 @@ def initialPopulation(popSize, cityList):
         population.append(createRoute(cityList))
     return population
 
-def rankRoutes(population):
+def rankRoutes(population): #оцениваем поколение
     fitnessResults = {}
-    for i in range(0,len(population)):
+    for i in range(len(population)):
         fitnessResults[i] = Fitness(population[i]).routeFitness()
     return sorted(fitnessResults.items(), key = operator.itemgetter(1), reverse = True)
 
 
 def selection(popRanked, eliteSize):
     selectionResults = []
-    df = pd.DataFrame(np.array(popRanked), columns=["Index","Fitness"])
+    df = pd.DataFrame(np.array(popRanked), columns=["Index","Fitness"]) #колесо рулетки - oulette wheel selection
     df['cum_sum'] = df.Fitness.cumsum()
     df['cum_perc'] = 100*df.cum_sum/df.Fitness.sum()
     
-    for i in range(0, eliteSize):
+    for i in range(0, eliteSize): #элита просто переносится дальше 
         selectionResults.append(popRanked[i][0])
     for i in range(0, len(popRanked) - eliteSize):
         pick = 100*random.random()
         for i in range(0, len(popRanked)):
-            if pick <= df.iat[i,3]:
+            if pick <= df.iat[i,3]: 
                 selectionResults.append(popRanked[i][0])
                 break
     return selectionResults
@@ -48,7 +47,7 @@ def matingPool(population, selectionResults):
         matingpool.append(population[index])
     return matingpool
 
-def breed(parent1, parent2):
+def breed(parent1, parent2): #скрещивание - берем рандомный подмассив генов из первого родителями и дополняем генами второго
     child = []
     childP1 = []
     childP2 = []
@@ -69,18 +68,17 @@ def breed(parent1, parent2):
 
 def breedPopulation(matingpool, eliteSize):
     children = []
-    length = len(matingpool) - eliteSize
     pool = random.sample(matingpool, len(matingpool))
 
-    for i in range(0,eliteSize):
+    for i in range(0,eliteSize): #лучшие просто переходят в новое поколение
         children.append(matingpool[i])
     
-    for i in range(0, length):
+    for i in range(0, len(matingpool) - eliteSize):
         child = breed(pool[i], pool[len(matingpool)-i-1])
         children.append(child)
     return children
 
-def mutate(individual, mutationRate):
+def mutate(individual, mutationRate): #мутация рандомно меняются местами города
     for swapped in range(len(individual)):
         if(random.random() < mutationRate):
             swapWith = int(random.random() * len(individual))
@@ -100,12 +98,13 @@ def mutatePopulation(population, mutationRate):
         mutatedPop.append(mutatedInd)
     return mutatedPop
 
-def nextGeneration(currentGen, eliteSize, mutationRate):
+def nextGeneration(currentGen, eliteSize, mutationRate, iteration):
     popRanked = rankRoutes(currentGen)
     selectionResults = selection(popRanked, eliteSize)
     matingpool = matingPool(currentGen, selectionResults)
     children = breedPopulation(matingpool, eliteSize)
     nextGeneration = mutatePopulation(children, mutationRate)
+    print("best distance in %s iteration: %s" %(iteration, (1 / rankRoutes(nextGeneration)[0][1])))
     return nextGeneration
 
 def geneticAlgorithm(population, popSize=100, eliteSize=20, mutationRate=0.01, generations=500):
@@ -113,7 +112,7 @@ def geneticAlgorithm(population, popSize=100, eliteSize=20, mutationRate=0.01, g
     print("Initial distance: " + str(1 / rankRoutes(pop)[0][1]))
     
     for i in range(0, generations):
-        pop = nextGeneration(pop, eliteSize, mutationRate)
+        pop = nextGeneration(pop, eliteSize, mutationRate, i)
     
     print("Final distance: " + str(1 / rankRoutes(pop)[0][1]))
     bestRouteIndex = rankRoutes(pop)[0][0]
