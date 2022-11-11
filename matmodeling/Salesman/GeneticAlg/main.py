@@ -1,9 +1,11 @@
-from Utils.City import City
+from City import City
 from Fitness import Fitness
 import random
 import numpy as np
 import operator
 import pandas as pd
+from Utils import readData
+
 
 
 def createRoute(cityList):
@@ -119,9 +121,6 @@ def geneticAlgorithm(population, popSize=100, eliteSize=20, mutationRate=0.01, g
     bestRoute = pop[bestRouteIndex]
     return bestRoute
 
-cityList = []
-
-for i in range(0,25):
-    cityList.append(City(name="City " + str(i), x=int(random.random() * 200), y=int(random.random() * 200)))
+cityList = readData()
 
 print(geneticAlgorithm(population=cityList, popSize=100, eliteSize=20, mutationRate=0.01, generations=500))

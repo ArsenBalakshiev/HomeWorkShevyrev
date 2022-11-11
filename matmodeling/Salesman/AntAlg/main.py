@@ -2,6 +2,9 @@ import math
 import random
 from Edge import Edge
 from Ant import Ant
+from Utils import City
+from Utils.Utils import readData
+
 
 class SolveTSPUsingACO:
     def __init__(self, colony_size=10, alpha=1.0, beta=4.0,
@@ -17,7 +20,7 @@ class SolveTSPUsingACO:
         for i in range(self.num_nodes):
             for j in range(i + 1, self.num_nodes):
                 self.edges[i][j] = self.edges[j][i] = Edge(i, j, math.sqrt(
-                    pow(self.nodes[i][0] - self.nodes[j][0], 2.0) + pow(self.nodes[i][1] - self.nodes[j][1], 2.0)),
+                    pow(self.nodes[i].x - self.nodes[j].x, 2.0) + pow(self.nodes[i].y - self.nodes[j].y, 2.0)),
                                                                 initial_pheromone) #длина пути из одного города в другой
         self.ants = [Ant(alpha, beta, self.num_nodes, self.edges) for _ in range(self.colony_size)] #инициируем муравьёв
         self.global_best_tour = None
@@ -45,13 +48,15 @@ class SolveTSPUsingACO:
         self._acs()
 
         print('Ended : ACS')
-        print('Sequence : <- {0} ->'.format(' - '.join(str(self.labels[i]) for i in self.global_best_tour)))
+        print('Sequence : <- {0} ->'.format(' - '.join(str(self.nodes[i].name) for i in self.global_best_tour)))
         print('Total distance travelled to complete the tour : {0}\n'.format(round(self.global_best_distance, 2)))
 
 
 if __name__ == '__main__':
     _colony_size = 5
     _steps = 50
-    _nodes = [(random.uniform(-400, 400), random.uniform(-400, 400)) for _ in range(0, 15)]
+    _cityCount = 50
+    #_nodes = [City(random.uniform(-400, 400), random.uniform(-400, 400), "City " + str(i)) for i in range(0, _cityCount)]
+    _nodes = readData()
     acs = SolveTSPUsingACO(colony_size=_colony_size, steps=_steps, nodes=_nodes)
     acs.run()

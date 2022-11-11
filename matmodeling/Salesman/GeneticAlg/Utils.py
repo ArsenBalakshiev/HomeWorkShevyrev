@@ -5,5 +5,5 @@ def readData(count = 50):
     with open("../dataset/cities50.txt", "r")  as f:
         for line in f.readlines():
             cityData = line.split(' ')
-            cities.append(City(cityData[1], cityData[2], cityData[0]))
+            cities.append(City(float(cityData[1]), float(cityData[2]), cityData[0]))
     return cities

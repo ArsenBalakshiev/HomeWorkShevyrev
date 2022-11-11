@@ -1,37 +1,41 @@
 from Gene import Genome;
-from Utils.City import City
+from City import City
 from Fitness import Fitness
 import random
 import numpy as np
 import operator
 import pandas as pd
 
-#doesnt work
-
 class GeneticAlgTSP():
-    def __init__(self, cities, mutationRate = 0.05):
+    def __init__(self, cities, mutationRate = 0.01):
         self.cities = cities;
         self.population = {}
         self.mutationRate = mutationRate
         self.populationSize = 100;
+        self.eliteSize = 20;
 
     def solve(self):
         self._make_first_generation()
         self._count_fitness()
         iterations = 0
-        distance = self._minDistance()
-        print("best distance on iteration %s is %s" %(iterations, distance.distance))
-        while(iterations < 100):
+        bestOne = self._minDistance()
+        print("best distance on iteration %s is %s" %(iterations, self.population[bestOne].distance))
+        while(iterations < 50):
             print("iteration " + str(iterations))
             self._count_parent_probability()
             self._make_generation()
             self._count_fitness()
-            newDistance = self._minDistance()
-            if(newDistance.distance < distance.distance):
-                distance = newDistance
-            print("best distance on iteration %s is %s" %(iterations, distance.distance))
+            newBestOne = self._minDistance()
+            print(self.population[newBestOne].distance)
+            distance1 = 5 #self.population[newBestOne].distance
+            distance2 = 4 #self.population[bestOne].distance
+
+            if distance1 < distance2:
+                print(1)
+                bestOne = newBestOne
+            print("best distance on iteration %s is %s" %(iterations, self.population[bestOne].distance))
             iterations += 1
-        return distance
+        return bestOne
 
 
     
@@ -51,11 +55,13 @@ class GeneticAlgTSP():
     def _minDistance(self):
         min = self.population[0].distance
         minObj = self.population[0]
+        minObjPos = 0
         for i in range(self.populationSize):
-            if self.population[i].distance < min:
+            if (self.population[i].distance < min):
                 min = self.population[i].distance
                 minObj = self.population[i]
-        return minObj
+                minObjPos = i
+        return minObjPos
 
     def _count_fitness(self):
         bestFitness = self.population[0].routeFitness()
@@ -65,7 +71,7 @@ class GeneticAlgTSP():
             if(bestFitness > 0):
                 bestFitness = fitness
                 bestFitnessPos = i
-        return i;
+        return bestFitness;
 
     def _inverse_sum(self): #сумма обращенных коэффициентов, деленная на величину, обратную к коэффициенту данному значению
         sum = 0
@@ -145,22 +151,23 @@ class GeneticAlgTSP():
 
         for i in range(self.populationSize):
             self.population[i] = tmp[i]
+
         
     def __str__(self) -> str:
         res = ""
         fitness = self.solve()
         gene = self.population[fitness]
         res += "The solution route is "
-        for i in range(gene.route):
-            currentGene = gene.route
-            res += str(currentGene[i].name + " ")
+        for i in range(len(gene.route)):
+            currentGene = gene.route[i]
+            res += str(currentGene.name + " ")
             res += "[" + str(currentGene.x) + ", " + str(currentGene.y) + "]; "
-            return res + "\n"
+        return res + "\n"
     
 
 cityList = []
 
-for i in range(0,25):
+for i in range(25):
     cityList.append(City(name="City " + str(i), x=int(random.random() * 200), y=int(random.random() * 200)))
 
 print(GeneticAlgTSP(cityList))
