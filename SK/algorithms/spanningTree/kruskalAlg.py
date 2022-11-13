@@ -1,3 +1,5 @@
+import sys
+
 class KruskalGraph:
     def __init__(self, vertices):
         self.V = vertices
@@ -45,3 +47,30 @@ class KruskalGraph:
                 self.apply_union(parent, rank, x, y)
         for u, v, weight in result:
             print("%d - %d: %d" % (u, v, weight))
+
+
+def kruskal(graph, start):
+    edges = graph.edges
+    min = sys.maxsize
+    res = {}
+
+
+    for k in range(graph.V):
+        min = sys.maxsize
+
+        firstNode = 0
+        secondNode = 0
+
+        for i in range(edges):
+            for j in range(edges[i]):
+                if(edges[i][j]) < min: 
+                    min = edges[i][j]
+                    firstNode = i
+                    secondNode = i
+        res[k] = [firstNode, secondNode]
+
+        
+        
+        
+
+        

@@ -17,7 +17,7 @@ class Graph:
         return result;
 
     def getNodes(self):
-        return [i[0] for i in self.edges]
+        return list(range(0, self.v))
     
 
     def getNodeWeights(self, node):
