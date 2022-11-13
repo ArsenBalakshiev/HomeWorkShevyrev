@@ -2,8 +2,8 @@ import math
 import random
 from Edge import Edge
 from Ant import Ant
-from Utils import City
-from Utils.Utils import readData
+from City import City
+from Utils import readData
 
 
 class SolveTSPUsingACO:
