@@ -15,6 +15,7 @@ class KruskalGraph:
             return i
         return self.find(parent, parent[i])
 
+    #объеденяет подсписки
     def apply_union(self, parent, rank, x, y):
         xroot = self.find(parent, x)
         yroot = self.find(parent, y)
@@ -29,47 +30,36 @@ class KruskalGraph:
     #  Applying Kruskal algorithm
     def kruskal_algo(self):
         result = []
-        i, e = 0, 0
+        i, e = 0, 0 #i для отсортированных ребер, e для результата
+        #соритруем в не-убывающем порядке все ребра
         self.graph = sorted(self.graph, key=lambda item: item[2])
         parent = []
         rank = []
+
+
+        #создаём V подмассивов с одним элементов
         for node in range(self.V):
             parent.append(node)
             rank.append(0)
+
+
+        
         while e < self.V - 1:
+            #берем ребро с минимальным весом и увеличиваем индекс
             u, v, w = self.graph[i]
-            i = i + 1
+            i += i
             x = self.find(parent, u)
             y = self.find(parent, v)
+            #если добавление этого ребра не приводит к циклу, то добавляем и увеличиваем индекс Е
             if x != y:
-                e = e + 1
+                e += e
                 result.append([u, v, w])
                 self.apply_union(parent, rank, x, y)
         for u, v, weight in result:
             print("%d - %d: %d" % (u, v, weight))
 
 
-def kruskal(graph, start):
-    edges = graph.edges
-    min = sys.maxsize
-    res = {}
 
-
-    for k in range(graph.V):
-        min = sys.maxsize
-
-        firstNode = 0
-        secondNode = 0
-
-        for i in range(edges):
-            for j in range(edges[i]):
-                if(edges[i][j]) < min: 
-                    min = edges[i][j]
-                    firstNode = i
-                    secondNode = i
-        res[k] = [firstNode, secondNode]
-
-        
         
         
 

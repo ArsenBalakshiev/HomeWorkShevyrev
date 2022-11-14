@@ -1,11 +1,9 @@
 class Edge:
     def __init__(self, v, flow, C, rev):
-        self.v = v
-        self.flow = flow
-        self.C = C
+        self.v = v 
+        self.flow = flow #поток
+        self.C = C #объем
         self.rev = rev
- 
-# Residual Graph
  
  
 class DinicGraph:
@@ -14,29 +12,25 @@ class DinicGraph:
         self.V = V
         self.level = [0 for i in range(V)]
  
-    # add edge to the graph
     def add_edge(self, u, v, C):
  
-        # Forward edge : 0 flow and C capacity
         a = Edge(v, 0, C, len(self.adj[v]))
  
-        # Back edge : 0 flow and 0 capacity
         b = Edge(u, 0, 0, len(self.adj[u]))
         self.adj[u].append(a)
         self.adj[v].append(b)
  
-    # Finds if more flow can be sent from s to t
-    # Also assigns levels to nodes
+    # ищет возможно ли больше потока отправить от s до 
     def BFS(self, s, t):
         for i in range(self.V):
             self.level[i] = -1
  
-        # Level of source vertex
+        # Уровень исходной вершины
         self.level[s] = 0
  
-        # Create a queue, enqueue source vertex
-        # and mark source vertex as visited here
-        # level[] array works as visited array also
+        # Создаем очередь, ставим исходную вершину в очередь
+        # и помечаем исходную вершину как посещенную
+        # level[] также работает как массив посещенных вершина
         q = []
         q.append(s)
         while q:
@@ -45,77 +39,62 @@ class DinicGraph:
                 e = self.adj[u][i]
                 if self.level[e.v] < 0 and e.flow < e.C:
  
-                    # Level of current vertex is
+                    # уровень исходной вершины это 
                     # level of parent + 1
                     self.level[e.v] = self.level[u]+1
                     q.append(e.v)
  
-        # If we can not reach to the sink we
-        # return False else True
+        # если мы не можем достичь вершины, то False, иначе True
         return False if self.level[t] < 0 else True
  
-# A DFS based function to send flow after BFS has
-# figured out that there is a possible flow and
-# constructed levels. This functions called multiple
-# times for a single call of BFS.
-# flow : Current flow send by parent function call
-# start[] : To keep track of next edge to be explored
-#           start[i] stores count of edges explored
-#           from i
-# u : Current vertex
-# t : Sink
+# Функция на основе DFS для отправки потока после того, как BFS выяснила, что существует возможный поток и
+# построенные уровни
+# flow : текущий поток
+# start[] : чтобы отслеживать следующее ребро, которое нужно исследовать
+# u : текущая вершина
+# t : конечная
     def sendFlow(self, u, flow, t, start):
-        # Sink reached
+        # конец достигнут 
         if u == t:
             return flow
  
-        # Traverse all adjacent edges one -by -one
         while start[u] < len(self.adj[u]):
  
-            # Pick next edge from adjacency list of u
+            # следующий сосед вершины u
             e = self.adj[u][start[u]]
             if self.level[e.v] == self.level[u]+1 and e.flow < e.C:
  
-                # find minimum flow from u to t
+                # ищем минимальный поток от u до t
                 curr_flow = min(flow, e.C-e.flow)
                 temp_flow = self.sendFlow(e.v, curr_flow, t, start)
  
-                # flow is greater than zero
+                # если поток больше нуля
                 if temp_flow and temp_flow > 0:
  
-                    # add flow to current edge
+                    # добавляем поток к ребру
                     e.flow += temp_flow
  
-                    # subtract flow from reverse edge
-                    # of current edge
+                    # вычитаем поток из обратного текущему ребру
                     self.adj[e.v][e.rev].flow -= temp_flow
                     return temp_flow
             start[u] += 1
  
-    # Returns maximum flow in graph
     def max_flow(self, s, t):
- 
-        # Corner case
         if s == t:
             return -1
  
-        # Initialize result
-        total = 0
+        result = 0
  
-        # Augument the flow while there is path
-        # from source to sink
-        while self.BFS(s, t) == True:
+        # максимальный поток увеличивается пока есть пусть от S до T
+        while self.BFS(s, t):
  
-            # store how many edges are visited
-            # from V { 0 to V }
+            # Количество посещённых точек
             start = [0 for i in range(self.V+1)]
             while True:
                 flow = self.sendFlow(s, float('inf'), t, start)
                 if not flow:
                     break
  
-                # Add path flow to overall flow
-                total += flow
+                result += flow
  
-        # return maximum flow
-        return total
+        return result
