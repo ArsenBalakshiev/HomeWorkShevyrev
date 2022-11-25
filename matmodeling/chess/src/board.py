@@ -558,7 +558,7 @@ class Board:
             if (nextI == i or nextJ == j) and (nextI == whiteKingI and nextJ == whiteKingJ):
                 continue
             else:
-                self.squares[7][0] = Square(7, 0, Rook('white'))
+                self.squares[nextI][nextJ] = Square(nextI, nextJ, Rook('white'))
                 break
 
             
