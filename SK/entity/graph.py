@@ -10,6 +10,9 @@ class Graph:
         self.edges[u][v] = weight
         self.edges[v][u] = weight
 
+    def add_edge2(self, u, v, weight):
+        self.edges[u][v] = weight
+
     def getNodesWithEdges(self, node):
         result = []
         row = self.edges[node]

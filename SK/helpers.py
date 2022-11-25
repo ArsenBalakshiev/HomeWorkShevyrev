@@ -16,3 +16,10 @@ def readJson(filename, graph):
         for i in data["data"]:
             for j in i["edges"]:
                 graph.add_edge(i["node"], j["to"], j["weight"])
+
+def readJson2(filename, graph):
+    with open(filename, 'r') as json_file:
+        data = json.load(json_file)
+        for i in data["data"]:
+            for j in i["edges"]:
+                graph.add_edge2(i["node"], j["to"], j["weight"])

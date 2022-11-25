@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Python: модуль",
+            "type": "python",
+            "request": "launch",
+            "module": "Chess",
+            "justMyCode": true
+        },
+        {
+            "name": "Python: File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "justMyCode": true
+        }
+    ]
+}
